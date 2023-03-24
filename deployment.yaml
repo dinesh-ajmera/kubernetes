@@ -1,40 +1,35 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webapp-deployment
+  name: my-sudoku-game
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: webapp
+      app: my-sudoku-game
   template:
     metadata:
       labels:
-        app: webapp
+        app: my-sudoku-game
     spec:
       containers:
-      - name: nginx
-        image: nginx:latest
+      - name: my-sudoku-game
+        image: testapp01.azurecr.io/my-sudoku-game:latest
         ports:
-        - containerPort: 80
+        - containerPort: 8080
         resources:
           limits:
-            cpu: 200m
-            memory: 200Mi
-          requests:
-            cpu: 175m
-            memory: 175Mi
-
+            cpu: "0.5"
+            memory: "512Mi"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: webapp-service
+  name: my-sudoku-game
 spec:
-  selector:
-    app: webapp
+  type: LoadBalancer
   ports:
-  - name: http
-    port: 80
-    targetPort: 80
-  type: NodePort
+  - port: 8080
+    targetPort: 8080
+  selector:
+    app: my-sudoku-game
