@@ -4,6 +4,7 @@ on:
     branches:
       - develop
       - multiregion-deployment
+      - multiregion
   workflow_dispatch: {}
 env:
   ACR_RESOURCE_GROUP: test-app
