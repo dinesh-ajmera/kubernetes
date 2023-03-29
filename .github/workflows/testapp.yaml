@@ -12,7 +12,7 @@ env:
   DEPLOYMENT_MANIFEST_PATH: ./deployment.yaml
 jobs:
   buildImage:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
       - uses: azure/login@v1.4.3
@@ -24,7 +24,7 @@ jobs:
       - name: Build and push image to ACR
         run: az acr build --image ${{ env.CONTAINER_NAME }}:${{ github.sha }} --registry ${{ env.AZURE_CONTAINER_REGISTRY }} -g ${{ env.ACR_RESOURCE_GROUP }} -f ./Dockerfile ./
   deploy-testapp01:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs:
       - buildImage
     steps:
@@ -54,7 +54,7 @@ jobs:
           manifests: ${{ env.DEPLOYMENT_MANIFEST_PATH }}
           namespace: my-sudoko-app
   deploy-testapp02:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs:
       - buildImage
     steps:
